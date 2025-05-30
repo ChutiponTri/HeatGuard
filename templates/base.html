@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Hide side {% endblock %}</title>
+    {% block style %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <header>
+        {% block header  %}
+        <h1><a href="{% url 'index' %}" class="green-link">Heatstroke Risk Estimation</a></h1>
+        <!-- ปุ่ม toggle อยู่ใน header -->
+        <label for="sidebar-toggle" class="sidebar-toggle">☰</label>
+        {% endblock  %}
+    </header>
+    <input type="checkbox" id="sidebar-toggle" class="sidebar-checkbox">
+    <div class="sidebar" id="sidebar">
+        {% block sidebar  %}
+        <ur>
+            <li><a href="{% url 'index' %}">HOME</a></li>
+            <li><a href="{% url 'information' %}">INFORMATION</a></li>
+            <li>ABOUT</li>
+            <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+        </ur>
+        {% endblock  %}
+    </div>
+    <div class="content" id="content">
+            {% block content %} {% endblock %}
+    </div>
+    {% block content2_wrapper %}
+        {% block content2 %}{% endblock %}
+    {% endblock %}
+</body>
+</html>

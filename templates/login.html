@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    {% load static %}
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endblock %}
+</head>
+<body class="login">
+    <div class="login-right">
+        <div class="login-form-container">
+        <h1>LOGIN</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="{% url 'register' %}">REGISTER NOW!</a></p>
+    </div>
+</div>
+</body>
+</html>

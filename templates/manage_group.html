@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .member-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .member-table th, .member-table td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    .btn-remove {
+      padding: 6px 12px;
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-remove:hover {
+      background-color: #c82333;
+    }
+  </style>
+  
+{% endblock %}
+
+
+{% block title %} Manage {{ group.name }} {% endblock %}
+
+{% block content %}
+<div class="group-details">
+  <h2>Manage Group: {{ group.name }}</h2>
+
+  {% if members %}
+    <table class="member-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for member in members %}
+          <tr>
+            <td>{{ member.username }}</td>
+            <td>{{ member.email }}</td>
+            <td>
+              <form method="post" action="{% url 'delete_member' group.id member.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-remove" onclick="return confirm('ลบ {{ member.username }} หรือไม่?')">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>ยังไม่มีสมาชิกในกลุ่มนี้</p>
+  {% endif %}
+
+  <br>
+  <a href="{% url 'view_group' group.id %}" class="btn-back-home">Back</a>
+</div>
+{% endblock %}

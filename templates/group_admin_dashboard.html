@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block title %} HOME {% endblock %}
+{% block content%}
+    <h1>Hi {{ request.user.username }}!</h1>
+    <h2>These are your Group!</h2>
+    <br>
+    <a href="{% url 'create_group' %}" class="btn-join-group">Create Group</a>
+    <br>
+    <ul class="group-list">
+        {% for group in user_groups %}
+            <li class="group-item">
+                <strong>{{ group.name }}</strong> - Created on: {{ group.created_at|date:"d M Y" }}
+                <a href="{% url 'view_group' group.id %}"class="btn-join-group">View Group</a>
+            </li>
+        {% empty %}
+            <p>You are not an admin of any group.</p>
+        {% endfor %}
+    </ul>
+{% endblock  %}

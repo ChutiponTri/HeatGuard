@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block title %} Update Profile {% endblock %}
+
+{% block content %}
+  <h2>Update Your Profile</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
+  <a href="{% url 'user_profile' user_id=request.user.id %}" class="btn-join-group">Back</a>
+{% endblock %}

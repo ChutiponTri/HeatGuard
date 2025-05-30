@@ -1,0 +1,448 @@
+/* Reset styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+/* Header styles */
+header {
+    background-color: #b2f5b4;
+    display: flex;
+    justify-content: space-between; /* จัดให้ h1 อยู่ซ้าย ปุ่มอยู่ขวา */
+    align-items: center;
+    padding: 10px 20px;
+    position: fixed; /* Fix header at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure header is above other elements */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #006400;
+    margin: 0;
+}
+
+.green-link {
+    color: #006400; /* สีเขียวเข้ม */
+    text-decoration: none;
+}
+
+.green-link:hover {
+    color: #009900;
+    text-decoration: underline;
+}
+/* ปรับปุ่ม toggle ให้อยู่ภายใน header และฝั่งขวา */
+.sidebar-toggle {
+    font-size: 20px; /* ขนาดของไอคอนในปุ่ม */
+    cursor: pointer;
+    right: 70px;
+    background: none;
+    border: none;
+    color: #006400;
+    padding: 10px 15px; /* ปรับ padding ให้เหมาะสมกับ header */
+    border-radius: 10px; /* ขอบมน */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+    height: 30px; /* กำหนดความสูงให้เหมาะสมกับ header */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px
+}
+
+/* เมื่อ hover ปุ่ม */
+.sidebar-toggle:hover {
+    background-color: white;
+}
+
+/* ปรับให้ sidebar อยู่ด้านขวา */
+.sidebar-checkbox {
+    display: none;
+}
+
+.sidebar {
+    position: absolute;
+    top: 90px; /* ตั้งระยะห่างจากปุ่ม toggle */
+    right: 0; /* ย้าย sidebar ไปทางขวา */
+    width: 200px;
+    background-color: #c6ccc4; /* สีเขียว */
+    color: white;
+    padding: 20px;
+    border-radius: 10px; /* ขอบมน */
+    display: none;
+    transition: right 0.3s ease;
+    z-index: 999; /* ให้ sidebar อยู่เหนือเนื้อหาหลัก */
+    margin-right: 10px
+}
+
+/* เมื่อ checkbox ถูกเลือก sidebar จะแสดง */
+.sidebar-checkbox:checked + .sidebar {
+    display: block; /* แสดง sidebar */
+}
+
+/* เนื้อหาหลัก */
+/* ✅ ใช้ CSS Grid เพื่อแยก content และ memberlist ออกเป็น 2 กล่อง */
+.main-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* ✅ กำหนด content เป็น 2 ส่วน และ memberlist เป็น 1 ส่วน */
+    gap: 10px; /* ✅ เพิ่มระยะห่างระหว่าง content และ memberlist */
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* ✅ สไตล์กล่องรายละเอียดกลุ่ม */
+.content {
+    margin: 90px 20px 20px 20px; /* ขยับเนื้อหาลงมาจาก header */
+    padding: 20px;
+    background-color: #b2f5b4;
+    border-radius: 10px;
+    width: 50%; /* กำหนดความกว้างของกล่องเป็นครึ่งหนึ่งของหน้าจอ */
+    max-width: 1200px; /* กำหนดความกว้างสูงสุดเพื่อไม่ให้กว้างเกินไปบนหน้าจอขนาดใหญ่ */
+    margin-right: auto; /* จัดให้อยู่ทางซ้าย */
+    transition: margin-right 0.3s ease;
+}
+/* ✅ สไตล์กล่องรายชื่อสมาชิก */
+.content2 {
+    margin: 20px 20px 20px 20px; /* ขยับเนื้อหาลงมาจาก header */
+    padding: 20px;
+    background-color: #b2f5b4;
+    border-radius: 10px;
+    width: 50%; /* กำหนดความกว้างของกล่องเป็นครึ่งหนึ่งของหน้าจอ */
+    max-width: 1200px; /* กำหนดความกว้างสูงสุดเพื่อไม่ให้กว้างเกินไปบนหน้าจอขนาดใหญ่ */
+    margin-right: auto; /* จัดให้อยู่ทางซ้าย */
+    transition: margin-right 0.3s ease;
+}
+/* ขยายเนื้อหาหลักเมื่อ sidebar แสดง */
+.sidebar-checkbox:checked ~ .content {
+    margin-right: 250px; /* ขยายเนื้อหาหลักให้ห่างจาก sidebar */
+}
+
+body.login {
+    background-color: #b2f5b4;
+}
+.login-right {
+    background-color: #ffffff;
+    width: 55%; /* กำหนดความกว้างของกล่อง */
+    height: 1024px;
+    /*max-width: 1200px; กำหนดความกว้างสูงสุดเพื่อไม่ให้กว้างเกินไปบนหน้าจอขนาดใหญ่ */
+    margin-left: auto; /* จัดให้อยู่ทางขวา */
+    transition: margin-right 0.3s ease;
+}
+
+.login-left {
+    /*margin: 90px 20px 20px 20px; ขยับเนื้อหาลงมาจาก header */
+    background-color: #ffffff;
+    width: 45%; /* กำหนดความกว้างของกล่องเป็นครึ่งหนึ่งของหน้าจอ */
+    height: 1024px;
+    max-width: 1200px; /* กำหนดความกว้างสูงสุดเพื่อไม่ให้กว้างเกินไปบนหน้าจอขนาดใหญ่ */
+    margin-right: auto; /* จัดให้อยู่ทางซ้าย */
+    transition: margin-right 0.3s ease;
+}
+
+.login-form-container {
+    width: 100%; /* กำหนดความกว้างเต็ม */
+    max-width: 400px; /* จำกัดความกว้างสูงสุด */
+    padding: 60px; /* ระยะห่างภายในกล่องเท่าๆ กันทุกด้าน */
+    background-color: none; /* สีพื้นหลัง */
+    border-radius: 10px; /* ขอบมุมโค้งมน */
+    display: flex; /* ใช้ Flexbox */
+    flex-direction: column; /* จัดวางเนื้อหาในแนวตั้ง */
+    align-items: left; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    justify-content: left; /* จัดให้อยู่กึ่งกลางในแนวตั้ง */
+    text-align: left; /* จัดข้อความให้อยู่กึ่งกลาง */
+}
+
+body.login .login-form-container h1 {
+    font-size: 4rem; /* ขนาดใหญ่ขึ้น */
+    font-weight: bold; /* ตัวหนา */
+    color: #006400; /* สีที่ดูเด่น */
+    margin-bottom: 20px; /* เพิ่มระยะห่างจากฟอร์ม */
+}
+
+/* ตกแต่งฟอร์ม */
+body.login .login-form-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+    gap: 5px; /* เพิ่มระยะห่างระหว่างช่องฟอร์ม */
+}
+
+/* สไตล์ช่อง input */
+body.login .login-form-container form input[type="text"],
+body.login .login-form-container form input[type="password"],
+body.login .login-form-container form input[type="email"] {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc; /* ขอบเรียบ */
+    border-radius: 5px; /* ขอบมุมมน */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* เงาด้านใน */
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* เปลี่ยนสีขอบเมื่อ hover/focus */
+body.login .login-form-container form input[type="text"]:focus,
+body.login .login-form-container form input[type="password"]:focus,
+body.login .login-form-container form input[type="email"]:focus{
+    border-color: #006400; /* สีขอบเมื่อเน้น */
+    outline: none; /* ลบกรอบ default */
+}
+
+/* ตกแต่งปุ่ม */
+body.login .login-form-container form button {
+    padding: 8px 9px; /* ลดขนาด padding */
+    font-size: 0.9rem; /* ลดขนาดข้อความ */
+    width: auto; /* ให้ขนาดของปุ่มพอดีกับข้อความ */
+    border-radius: 5px; /* ขอบมนเหมือนเดิม */
+    background-color: #006400; /* สีพื้นหลัง */
+    color: white; /* สีข้อความ */
+    border: none; /* ไม่มีขอบ */
+    cursor: pointer; /* เปลี่ยน cursor */
+    transition: background-color 0.3s ease;
+}
+
+/* เปลี่ยนสีปุ่มเมื่อ hover */
+body.login .login-form-container form button:hover {
+    background-color: #006400; /* สีเข้มขึ้นเมื่อ hover */
+}
+
+/* ลิงก์ในฟอร์ม */
+body.login .login-form-container a {
+    color: #006400;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+/* ลิงก์เมื่อ hover */
+body.login .login-form-container a:hover {
+    text-decoration: underline;
+}
+
+/* ตกแต่งปุ่ม create group */
+
+/* ✅ ปรับสไตล์ให้ฟอร์มอยู่ตรงกลาง */
+.form-container {
+    width: 90%; /* ป้องกัน form container กินพื้นที่เกินไป */
+    max-width: 500px; /* จำกัดความกว้าง */
+    background: white; /* พื้นหลังสีขาว */
+    padding: 20px; /* เพิ่ม padding */
+    border-radius: 10px; /* ขอบมน */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+    text-align: center; /* จัด text ให้อยู่ตรงกลาง */
+    margin: 30px auto; /* จัดให้อยู่กึ่งกลางแนวนอน */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ ปรับแต่งข้อความแจ้งเตือน */
+.message {
+    color: red;
+    font-weight: bold;
+}
+
+/* ✅ ปรับแต่ง label */
+label {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+    text-align: left;
+}
+
+/* ✅ ปรับแต่ง input และ textarea */
+form input[type="text"],
+form textarea {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc; /* ขอบเรียบ */
+    border-radius: 5px; /* ขอบมุมมน */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* เงาด้านใน */
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* ✅ ปรับขนาด textarea */
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+form {
+    width: 90%; /* ป้องกัน form กินพื้นที่มากเกินไป */
+    max-width: 300px; /* จำกัดขนาด form */
+    margin: 0 auto; /* จัด form ให้อยู่ตรงกลาง */
+}
+
+/* ✅ ปุ่มกด Create Group */
+.btn-submit {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    color: white;
+    background-color: #28a745; /* ✅ สีเขียว */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+.btn-submit:hover {
+    background-color: #218838; /* ✅ สีเขียวเข้มขึ้นเมื่อ hover */
+    transform: scale(1.05);
+}
+
+/* ✅ ปรับแต่งลิสต์ Group */
+.group-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.group-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.group-item strong {
+    color: #006400;
+}
+
+/* ✅ ปรับแต่งปุ่ม View Group */
+.btn-join-group {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-join-group:hover {
+    background-color: #218838;
+}
+
+/* ✅ สไตล์สำหรับกล่องรายละเอียดกลุ่ม */
+.group-details {
+    width: 60%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ✅ ปรับแต่งรายการสมาชิก */
+.member-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.member-list li {
+    background-color: #e3f2fd;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* ✅ จัด layout ของกลุ่มและฟอร์ม */
+.group-container {
+    display: flex;
+    justify-content: space-between; /* แยกซ้ายขวา */
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+
+/* ✅ ฟอร์ม Add Member (ขวา) */
+.group-details-form {
+    width: 35%;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* ✅ ปรับ input */
+.group-details-form input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* ✅ ปรับปุ่ม Add Member */
+.btn-add-member {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-add-member:hover {
+    background-color: #218838;
+    transform: scale(1.02);
+}
+
+/* ✅ ปรับข้อความแจ้งเตือน */
+.message {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin: 10px 0;
+}
+
+.btn-back-home {
+    padding: 8px 12px;
+    background-color: #d9534f;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-back-home:hover {
+    background-color: #d9534f;
+}
+
+.display_data {
+    margin: 20px;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+.grid-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}

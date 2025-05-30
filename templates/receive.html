@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block title %} Member Dashboard {% endblock %}
+
+{% block content %}
+  <h1>Welcome, {{ request.user.username }}</h1>
+  <div id="sensor-box" style="padding: 1rem; border-radius: 10px; background-color: #f0f0f0;">
+    <p>Heart Rate: <span id="heart_rate">--</span></p>
+    <p>Skin Temperature: <span id="skin_temperature">--</span></p>
+    <p>Ambient Temperature: <span id="ambient_temperature">--</span></p>
+    <p>Humidity: <span id="humidity">--</span></p>
+    <p>Skin Resistance: <span id="skin_resistance">--</span></p>
+    <p>Risk: <span id="risk">--</span></p>
+    <br>
+    <a href="{% url 'user_profile' user_id=request.user.id %}" class="btn-join-group">ดูโปรไฟล์</a>
+    <a href="{% url 'sensor:display_data' %}" class="btn-join-group">ดูข้อมูลย้อนหลัง</a>
+  </div>
+{% endblock %}
+
+
+{% block content2 %}
+<div class="content2" id="content2">
+<script>
+  window.onload = function () {
+    console.log("📡 script loaded");
+
+    const socket = new WebSocket("ws://" + window.location.host + "/ws/sensor/");
+    socket.onopen = () => console.log("✅ WebSocket connected (member_dashboard)");
+    socket.onerror = err => console.error("❌ WebSocket error:", err);
+
+    socket.onmessage = function (e) {
+      const data = JSON.parse(e.data);
+      console.log("🔥 member_dashboard WebSocket:", data);
+
+      if (data.user_id === {{ request.user.id }}) {
+        // ✅ เปลี่ยนสีพื้นหลังตามระดับความเสี่ยง
+        const sensorBox = document.getElementById("sensor-box");
+        if (sensorBox) {
+          let riskColor = "#eee";
+          if (data.risk === "low") riskColor = "#c4f5c4";
+          else if (data.risk === "medium") riskColor = "#fff6b3";
+          else if (data.risk === "high") riskColor = "#f7b3b3";
+          sensorBox.style.backgroundColor = riskColor;
+        }
+
+        // ✅ อัปเดตข้อมูล DOM อย่างปลอดภัย
+        const heartRate = document.getElementById("heart_rate");
+if (heartRate) heartRate.textContent = data.heart_rate + " BPM";
+
+const skinTemp = document.getElementById("skin_temperature");
+if (skinTemp) skinTemp.textContent = data.skin_temperature + "°C";
+
+const ambientTemp = document.getElementById("ambient_temperature");
+if (ambientTemp) ambientTemp.textContent = data.ambient_temperature + "°C";
+
+const humidity = document.getElementById("humidity");
+if (humidity) humidity.textContent = data.humidity + "%";
+
+const skinRes = document.getElementById("skin_resistance");
+if (skinRes) skinRes.textContent = data.skin_resistance;
+
+const risk = document.getElementById("risk");
+if (risk) risk.textContent = data.risk.toUpperCase();
+
+      }
+    };
+  };
+</script>
+</div>
+{% endblock %}
+

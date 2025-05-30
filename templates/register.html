@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTER</title>
+    {% load static %}
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endblock %}
+</head>
+<body class="login">
+    <div class="login-right">
+        <div class="login-form-container">
+            <h1>REGISTER</h1>
+            <form method="post">
+                {% csrf_token %}
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br>
+            
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br>
+            
+                <label for="password1">Password:</label>
+                <input type="password" id="password1" name="password1" required><br>
+            
+                <label for="password2">Confirm Password:</label>
+                <input type="password" id="password2" name="password2" required><br>
+
+                <select name="role">
+                    <option value="member">สมาชิกกลุ่ม</option>
+                    <option value="group_admin">ผู้ดูแลกลุ่ม</option>
+                </select>
+                <br>
+                <button type="submit" >Register</button>
+            </form>
+        
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                <!-- แสดงข้อความแจ้งเตือน -->
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        </div>
+    </div>
+</body>
+</html>

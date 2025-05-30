@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+  }
+  
+  .member-box {
+      border-radius: 10px;
+      padding: 1rem;
+      background-color: #f0f0f0;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sensor-title {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+  }
+  
+  .profile-btn {
+      display: inline-block;
+      margin-top: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      background-color: #006400;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+  }
+  
+  .profile-btn:hover {
+      background-color: #009900;
+  }
+</style>
+{% endblock %}
+
+{% block title %} {{ group.name }} {% endblock %}
+
+{% block content %}
+        <!-- ✅ ส่วนรายละเอียดกลุ่ม (ซ้าย) -->
+        <div class="group-details">
+            <h1>{{ group.name }}</h1>
+            <p><strong>Description:</strong> {{ group.description }}</p>
+            <p><strong>Created by:</strong> {{ group.created_by.username }}</p>
+            <p><strong>Created on:</strong> {{ group.created_at|date:"d M Y" }}</p>
+            <br>
+            <a href="{% url 'group_admin_dashboard' %}" class="btn-back-home">Back</a>
+            <a href="{% url 'add_member' group.id %}" class="btn-join-group">Add Member</a>
+            <!-- ช่วยเพิ่มปุ่ม manage group สำหรับให้ admin-group ลบสมาชิก ในกลุ่มได้ -->
+            {% if request.user == group.created_by %}
+            <a href="{% url 'manage_group' group.id %}" class="btn-join-group">Manage Group</a>
+            {% endif %}
+          
+            
+        </div>
+{% endblock %}
+
+{% block content2 %}
+<div class="content2" id="content2">
+<h2>Member: {{ group.name }}</h2>
+<div class="member-grid" id="group-data">
+  {% for member in members %}
+    <div class="member-box" id="member-{{ member.id }}">
+      <div class="sensor-title">{{ member.username }}</div>
+      <p>Loading...</p>
+      <a class="profile-btn" href="{% url 'user_profile' member.id %}">View Profile</a>
+      <!-- เพิ่มปุ่มสำหรับดูข้อมูลย้อนหลังของ member -->
+      <a class="profile-btn" href="{% url 'sensor:display_data' %}?user_id={{ member.id }}">View History</a>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  const socket = new WebSocket("ws://" + window.location.host + "/ws/sensor/");
+  socket.onopen = () => console.log("✅ WebSocket connected");
+  socket.onerror = err => console.error("❌ WebSocket error:", err);
+
+  socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    const userId = data.user_id;
+    const element = document.getElementById("member-" + userId);
+    if (element) {
+      let riskColor = "#eee";  // default
+      if (data.risk === "ปกติ" || data.risk === "normal") riskColor = "#9ae69a";      // เขียว
+      else if (data.risk === "ต่ำ" || data.risk === "low") riskColor = "#f7e177";     // เหลือง
+      else if (data.risk === "กลาง" || data.risk === "medium") riskColor = "#f7b56d"; // ส้ม
+      else if (data.risk === "สูง" || data.risk === "high") riskColor = "#f17c7c";    // แดง
+
+
+      element.innerHTML = `
+        <div class="sensor-title">${data.username}</div>
+        <div style="background-color: ${riskColor}; padding: 0.8rem; border-radius: 8px;">
+          <p><strong>ระดับความเสี่ยง:</strong> ${data.risk.toUpperCase()}</p>
+          <p>อัปเดตล่าสุด: ${data.timestamp}</p>
+          <ul>
+            <li>อัตราการเต้นหัวใจ: ${data.heart_rate} bpm</li>
+            <li>อุณหภูมิผิว: ${data.skin_temperature} °C</li>
+            <li>อุณหภูมิโดยรอบ: ${data.ambient_temperature} °C</li>
+            <li>ความชื้น: ${data.humidity} %</li>
+            <li>ค่าความต้านทานผิวหนัง: ${data.skin_resistance}</li>
+          </ul>
+        </div>
+        <a class="profile-btn" href="/profile/${userId}/">ดูโปรไฟล์</a>
+        `;
+
+    }
+  };
+</script>
+</div>
+{% endblock %}
+

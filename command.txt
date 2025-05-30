@@ -1,0 +1,11 @@
+# To migrate database
+python manage.py migrate
+
+# To Install PgLoader
+apt-get update && apt-get install -y pgloader
+
+# To Import sqlite3 to postgres
+pgloader db.sqlite3 postgres://myuser:mypassword@db:5432/mydb
+
+# To Access Django Admin Page
+http://127.0.0.1:8000/admin/
