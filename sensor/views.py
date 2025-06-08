@@ -12,8 +12,6 @@ from channels.layers import get_channel_layer
 from django.utils import timezone
 from datetime import timedelta
 
-
-
 @csrf_exempt
 #@login_required
 def receive_sensor_data(request):

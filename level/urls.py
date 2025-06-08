@@ -10,6 +10,4 @@ urlpatterns = [
     path('profile/<int:user_id>/update/', update_profile, name='update_profile'),
     path('group/<int:group_id>/manage/', manage_group, name='manage_group'),
     path('group/<int:group_id>/delete_member/<int:member_id>/', delete_member, name='delete_member'),
-
-
 ]

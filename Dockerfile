@@ -11,7 +11,7 @@ COPY requirements.txt /app/
 COPY emqxsl-ca.crt /app/emqxsl-ca.crt
 
 # ติดตั้ง dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt
 
 # คัดลอกไฟล์ทั้งหมดจากโปรเจคไปยัง container
 COPY . /app/
@@ -20,4 +20,4 @@ COPY . /app/
 RUN python manage.py collectstatic --noinput
 
 # คำสั่งสำหรับรัน Django
-CMD ["gunicorn", "heatstroke.asgi:application", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+# CMD ["gunicorn", "heatstroke.asgi:application", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
