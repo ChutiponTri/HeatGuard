@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('level', '0002_groupmodel'),
+        ("level", "0002_groupmodel"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='groupmodel',
-            name='members',
-            field=models.ManyToManyField(blank=True, related_name='user_groups', to=settings.AUTH_USER_MODEL),
+            model_name="groupmodel",
+            name="members",
+            field=models.ManyToManyField(blank=True, related_name="user_groups", to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
-            model_name='customuser',
-            name='groups',
-            field=models.ManyToManyField(blank=True, related_name='group_members', to='level.groupmodel'),
+            model_name="customuser",
+            name="groups",
+            field=models.ManyToManyField(blank=True, related_name="group_members", to="level.groupmodel"),
         ),
     ]

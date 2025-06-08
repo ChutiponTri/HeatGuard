@@ -15,7 +15,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 import heatstroke.routing
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'heatstroke.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "heatstroke.settings")
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),

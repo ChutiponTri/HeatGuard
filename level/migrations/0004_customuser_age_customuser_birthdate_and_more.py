@@ -6,28 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('level', '0003_groupmodel_members_alter_customuser_groups'),
+        ("level", "0003_groupmodel_members_alter_customuser_groups"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='customuser',
-            name='age',
+            model_name="customuser",
+            name="age",
             field=models.IntegerField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='customuser',
-            name='birthdate',
+            model_name="customuser",
+            name="birthdate",
             field=models.DateField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='customuser',
-            name='height',
+            model_name="customuser",
+            name="height",
             field=models.FloatField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='customuser',
-            name='weight',
+            model_name="customuser",
+            name="weight",
             field=models.FloatField(blank=True, null=True),
         ),
     ]

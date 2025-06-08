@@ -49,8 +49,8 @@ class SensorConsumer(AsyncWebsocketConsumer):
 
 class GroupConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.group_id = self.scope['url_route']['kwargs']['group_id']  # ดึง group_id จาก URL
-        self.group_name = f'group_{self.group_id}'  # ตั้งชื่อกลุ่มสำหรับ WebSocket
+        self.group_id = self.scope["url_route"]["kwargs"]["group_id"]  # ดึง group_id จาก URL
+        self.group_name = f"group_{self.group_id}"  # ตั้งชื่อกลุ่มสำหรับ WebSocket
 
         # เชื่อมต่อกลุ่ม (join)
         await self.channel_layer.group_add(
@@ -69,22 +69,22 @@ class GroupConsumer(AsyncWebsocketConsumer):
     # รับข้อความจาก WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        message = text_data_json["message"]
 
         # ส่งข้อความไปยังกลุ่ม
         await self.channel_layer.group_send(
             self.group_name,
             {
-                'type': 'send_message',
-                'message': message
+                "type": "send_message",
+                "message": message
             }
         )
 
     # ส่งข้อความไปยัง WebSocket
     async def send_message(self, event):
-        message = event['message']
+        message = event["message"]
 
         # ส่งข้อความไปยัง WebSocket
         await self.send(text_data=json.dumps({
-            'message': message
+            "message": message
         }))

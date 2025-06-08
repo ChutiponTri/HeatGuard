@@ -3,11 +3,11 @@ from django.conf import settings
 
 class SensorData(models.Model):
     RISK_LEVEL_CHOICES = [
-        ('normal', 'ปกติ'),
-        ('low', 'ต่ำ'),
-        ('medium', 'กลาง'),
-        ('high', 'สูง'),
-        ('🤔?','🤔')
+        ("normal", "ปกติ"),
+        ("low", "ต่ำ"),
+        ("medium", "กลาง"),
+        ("high", "สูง"),
+        ("🤔?","🤔")
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # เชื่อมโยงกับ User
     heart_rate = models.FloatField()  # อัตราการเต้นของหัวใจ

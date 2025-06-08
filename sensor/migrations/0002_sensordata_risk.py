@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sensor', '0001_initial'),
+        ("sensor", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='sensordata',
-            name='risk',
-            field=models.CharField(choices=[('low', 'ต่ำ'), ('medium', 'กลาง'), ('high', 'สูง')], default='low', max_length=10),
+            model_name="sensordata",
+            name="risk",
+            field=models.CharField(choices=[("low", "ต่ำ"), ("medium", "กลาง"), ("high", "สูง")], default="low", max_length=10),
             preserve_default=False,
         ),
     ]

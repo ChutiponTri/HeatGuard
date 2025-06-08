@@ -30,10 +30,10 @@ def on_disconnect(client, userdata, disconnect_flags, reason_code, properties):
     print("Disconnected with Reason", reason_code)
     client.reconnect()
 
-def on_message(client, userdata, messsage: mqtt.MQTTMessage):
+def on_message(client, userdata, message: mqtt.MQTTMessage):
     try:
-        payload = messsage.payload.decode()
-        print(f"Received message on topic: {messsage.topic} with payload: {payload}")
+        payload = message.payload.decode()
+        print(f"Received message on topic: {message.topic} with payload: {payload}")
         data = json.loads(payload)
 
         user_id = USER_ID or data.get("user")       # Switch Priority to get Real ID
@@ -92,7 +92,6 @@ def on_message(client, userdata, messsage: mqtt.MQTTMessage):
     except Exception as e:
         print("Error", e)
         
-
 class Command(BaseCommand):
     help = "MQTT start listening!!!"
 

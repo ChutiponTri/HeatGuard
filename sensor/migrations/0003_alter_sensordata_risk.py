@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sensor', '0002_sensordata_risk'),
+        ("sensor", "0002_sensordata_risk"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='sensordata',
-            name='risk',
-            field=models.CharField(choices=[('normal', 'ปกติ'), ('low', 'ต่ำ'), ('medium', 'กลาง'), ('high', 'สูง'), ('🤔?', '🤔')], max_length=10),
+            model_name="sensordata",
+            name="risk",
+            field=models.CharField(choices=[("normal", "ปกติ"), ("low", "ต่ำ"), ("medium", "กลาง"), ("high", "สูง"), ("🤔?", "🤔")], max_length=10),
         ),
     ]

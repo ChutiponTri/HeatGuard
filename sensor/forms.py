@@ -4,4 +4,4 @@ from .models import SensorData  # นำเข้ารูปแบบโมเ�
 class SensorDataForm(forms.ModelForm):
     class Meta:
         model = SensorData  # ระบุว่าใช้โมเดล SensorData
-        fields = ['heart_rate', 'skin_temperature', 'ambient_temperature', 'humidity', 'skin_resistance']
+        fields = ["heart_rate", "skin_temperature", "ambient_temperature", "humidity", "skin_resistance"]

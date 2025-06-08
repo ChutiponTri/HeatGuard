@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('level', '0005_remove_customuser_birthdate'),
+        ("level", "0005_remove_customuser_birthdate"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customuser',
-            name='first_name',
+            model_name="customuser",
+            name="first_name",
             field=models.CharField(blank=True, max_length=30),
         ),
         migrations.AlterField(
-            model_name='customuser',
-            name='last_name',
+            model_name="customuser",
+            name="last_name",
             field=models.CharField(blank=True, max_length=30),
         ),
     ]
