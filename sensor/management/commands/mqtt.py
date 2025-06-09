@@ -3,13 +3,13 @@ import os
 import sys
 import json
 import ssl
-
-sys.path.append("/app")
 from sensor.models import SensorData
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+
+sys.path.append("/app")
 
 MQTT_BROKER = os.getenv("MQTT_BROKER")
 MQTT_PORT = int(os.getenv("MQTT_PORT"))
