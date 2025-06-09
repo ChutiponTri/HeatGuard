@@ -11,13 +11,13 @@ from django.contrib.auth import get_user_model
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-MQTT_BROKER = "vad77f40.ala.asia-southeast1.emqxsl.com"
-MQTT_PORT = 8883
-MQTT_KEEPALIVE = 60
-MQTT_USER = "Heatstroke_all"
-MQTT_PASSWORD = "6310611097@Heat"
-MQTT_TOPIC = "data"
-USER_ID = 10
+MQTT_BROKER = os.getenv("MQTT_BROKER")
+MQTT_PORT = int(os.getenv("MQTT_PORT"))
+MQTT_KEEPALIVE = int(os.getenv("MQTT_KEEPALIVE"))
+MQTT_USER = os.getenv("MQTT_USER")
+MQTT_PASSWORD = os.getenv("MQTT_PASSWORD")
+MQTT_TOPIC = os.getenv("MQTT_TOPIC")
+USER_ID = int(os.getenv("USER_ID"))
 
 def on_connect(client, userdata, connect_flags, reason_code, properties):
     if reason_code == 0:
