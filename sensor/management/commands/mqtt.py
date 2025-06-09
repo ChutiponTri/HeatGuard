@@ -16,13 +16,14 @@ MQTT_PORT = 8883
 MQTT_KEEPALIVE = 60
 MQTT_USER = "Heatstroke_all"
 MQTT_PASSWORD = "6310611097@Heat"
+MQTT_TOPIC = "data"
 USER_ID = 10
 
 def on_connect(client, userdata, connect_flags, reason_code, properties):
     if reason_code == 0:
         print("Connected successfully")
         print("MQTT User ID:", USER_ID)
-        client.subscribe("data")
+        client.subscribe(MQTT_TOPIC)
     else:
         print("Bad connection. Code:", reason_code)
 
