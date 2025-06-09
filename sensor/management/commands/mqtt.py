@@ -100,7 +100,7 @@ class Command(BaseCommand):
         print("MQTT command running...")
         client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
         client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
-        client.tls_set(ca_certs="/app/emqxsl-ca.crt", tls_version=ssl.PROTOCOL_TLSv1_2)
+        client.tls_set(ca_certs="/app/cert/emqxsl-ca.crt", tls_version=ssl.PROTOCOL_TLSv1_2)
         #client.tls_insecure_set(True)
         client.connect(MQTT_BROKER, MQTT_PORT)
         client.on_connect = on_connect
