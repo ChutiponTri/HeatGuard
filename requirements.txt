@@ -5,3 +5,4 @@ channels-redis==4.1.0
 gunicorn>=21.2.0
 uvicorn[standard]>=0.22.0
 paho-mqtt==2.1.0
+requests

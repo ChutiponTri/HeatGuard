@@ -1,13 +1,14 @@
-import paho.mqtt.client as mqtt
-import os
-import sys
-import json
-import ssl
-from sensor.models import SensorData
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from sensor.models import SensorData
+import paho.mqtt.client as mqtt
+import requests
+import json
+import sys
+import ssl
+import os
 
 sys.path.append("/app")
 
@@ -18,6 +19,8 @@ MQTT_USER = os.getenv("MQTT_USER")
 MQTT_PASSWORD = os.getenv("MQTT_PASSWORD")
 MQTT_TOPIC = os.getenv("MQTT_TOPIC")
 USER_ID = int(os.getenv("USER_ID"))
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+TELEGRAM_BASE_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
 
 def on_connect(client, userdata, connect_flags, reason_code, properties):
     if reason_code == 0:
@@ -48,13 +51,13 @@ def on_message(client, userdata, message: mqtt.MQTTMessage):
             user = User.objects.get_or_create(username="anonymous")[0]
 
         risk_int  = data.get("risk")
-        if(risk_int == 0):
+        if risk_int == 0:
             risk = "normal"
-        elif(risk_int == 1):
+        elif risk_int == 1:
             risk = "low"
-        elif(risk_int == 2):
+        elif risk_int == 2:
             risk = "medium"
-        elif(risk_int == 3):
+        elif risk_int == 3:
             risk = "high"
         else:
             risk = "🤔?"
@@ -72,8 +75,7 @@ def on_message(client, userdata, message: mqtt.MQTTMessage):
         # ✅ Broadcast ข้อมูลไปยัง WebSocket
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            "sensor_group",
-            {
+            "sensor_group", {
                 "type": "send_sensor_data",
                 "data": {
                     "user_id": user.id,
@@ -88,11 +90,38 @@ def on_message(client, userdata, message: mqtt.MQTTMessage):
                 },
             }
         )
+
+        if risk_int >= 2:
+            risk = risk.replace("high", "emergency")
+            message = f"Status of {user.username.capitalize()}\nRisk Level: {risk_int}\n{risk.capitalize()} Condition"
+            Telegram.telegram(message)
                 
         print("✅ ส่งข้อมูลเข้าสู่ WebSocket แล้ว:")
+
     except Exception as e:
         print("Error", e)
-        
+
+class Telegram():
+    @staticmethod
+    def get_updates():
+        url = f"{TELEGRAM_BASE_URL}/getUpdates"
+        response = requests.get(url)
+        return response.json()
+    
+    @staticmethod
+    def send_message(chat_id, text):
+        url = f"{TELEGRAM_BASE_URL}/sendMessage"
+        data = {"chat_id": chat_id, "text": text}
+        response = requests.post(url, data=data)
+        return response.json()
+    
+    @staticmethod
+    def telegram(message: str):
+        updates = Telegram.get_updates()
+        if updates["result"]:
+            chat_id = updates["result"][-1]["message"]["chat"]["id"]
+            Telegram.send_message(chat_id, message)  
+ 
 class Command(BaseCommand):
     help = "MQTT start listening!!!"
 
