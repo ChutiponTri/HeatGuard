@@ -21,7 +21,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import consumers  # สำหรับนำ WebSocket consumer เข้ามา
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("sensor/", include("sensor.urls")),

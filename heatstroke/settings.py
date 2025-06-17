@@ -75,7 +75,6 @@ TEMPLATES = [
 ASGI_APPLICATION = "heatstroke.asgi.application"  # ระบุให้ Django ใช้ ASGI
 
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 

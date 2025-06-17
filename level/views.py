@@ -89,7 +89,6 @@ def view_group(request, group_id):
         "sensor_data_dict": sensor_data_dict,
     })
 
-
 @csrf_exempt
 @login_required
 def add_member(request, group_id):
@@ -113,7 +112,6 @@ def add_member(request, group_id):
             messages.error(request, "User ID not found.")
 
     return render(request, "add_member.html", {"group": group})
-    
     
 @csrf_exempt
 @login_required
@@ -143,7 +141,6 @@ def user_profile(request, user_id):
 
     return render(request, "user_profile.html", {"user": user, "group": group})
 
-
 @csrf_exempt
 @login_required
 def manage_group(request, group_id):
@@ -154,7 +151,6 @@ def manage_group(request, group_id):
         'group': group,
         'members': members
     })
-
 
 @csrf_exempt
 @login_required

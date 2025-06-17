@@ -7,7 +7,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from level.models import CustomUser
 
-
 def user_login(request):
     if request.user.is_authenticated:
         return redirect("index")  # หากล็อกอินแล้ว ให้ไปหน้า index
@@ -69,7 +68,6 @@ def index(request):
             return redirect("member_dashboard")
     return redirect("login")  # หากไม่ผ่านเงื่อนไขใดเลย ให้ไปหน้า login
 
-    
 @login_required
 def member_dashboard(request):
     return render(request, "receive.html") #ควรเปลี่ยนเป็น receive

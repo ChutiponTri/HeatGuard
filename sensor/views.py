@@ -70,9 +70,6 @@ def receive_sensor_data(request):
 
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
-
-
-
 #@login_required
 #def receive_sensor_data(request):
 #    if request.method == "POST":
@@ -127,7 +124,6 @@ def display_data(request):
     }
 
     return render(request, "sensor/display_data.html", context)
-
 
 def map_risk_to_score(risk):
     if not risk:

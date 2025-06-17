@@ -43,7 +43,6 @@ class CustomUser(AbstractUser):
         """แสดง ID เป็น 3 หลักตอนแสดงใน Django Admin หรือ QuerySet"""
         return f"{self.username} (ID: {self.formatted_id()})"
 
-
 class GroupModel(models.Model):
     name = models.CharField(max_length=100, unique=True)  # ชื่อ Group (ห้ามซ้ำ)
     description = models.TextField(blank=True, null=True)  # คำอธิบาย Group

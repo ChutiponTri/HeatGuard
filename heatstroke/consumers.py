@@ -47,7 +47,6 @@ class SensorConsumer(AsyncWebsocketConsumer):
         # รับข้อมูลที่ส่งมาจาก group
         await self.send(text_data=json.dumps(event))
 
-
 class GroupConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.group_id = self.scope["url_route"]["kwargs"]["group_id"]  # ดึง group_id จาก URL
