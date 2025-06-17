@@ -3,12 +3,17 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<style>
+  .name {
+    text-transform: capitalize;
+  }
+</style>
 {% endblock %}
 
 {% block title %} Member Dashboard {% endblock %}
 
 {% block content %}
-<h1>Welcome, {{ request.user.username }}</h1>
+<h1 class="name">Welcome, {{ request.user.username }}</h1>
 <div id="sensor-box" style="padding: 1rem; border-radius: 10px; background-color: #f0f0f0;">
   <p>Heart Rate: <span id="heart_rate">--</span></p>
   <p>Skin Temperature: <span id="skin_temperature">--</span></p>
