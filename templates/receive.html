@@ -13,17 +13,18 @@
 {% block title %} Member Dashboard {% endblock %}
 
 {% block content %}
-<h1 class="name">Welcome, {{ request.user.username }}</h1>
+<h1 class="name">👋 Welcome, {{ request.user.username }}</h1>
 <div id="sensor-box" style="padding: 1rem; border-radius: 10px; background-color: #f0f0f0;">
-  <p>Heart Rate: <span id="heart_rate">--</span></p>
-  <p>Skin Temperature: <span id="skin_temperature">--</span></p>
-  <p>Ambient Temperature: <span id="ambient_temperature">--</span></p>
-  <p>Humidity: <span id="humidity">--</span></p>
-  <p>Skin Resistance: <span id="skin_resistance">--</span></p>
-  <p>Risk: <span id="risk">--</span></p>
+  <p>💓 Heart Rate: <span id="heart_rate">--</span></p>
+  <p>🌡️ Core Temperature: <span id="skin_temperature">--</span></p>
+  <p>🌤️ Ambient Temperature: <span id="ambient_temperature">--</span></p>
+  <p>💧 Humidity: <span id="humidity">--</span></p>
+  <p>⚡ Skin Resistance: <span id="skin_resistance">--</span></p>
+  <p>🚦 Risk: <span id="risk">--</span></p>
+  <p id="ai"></p>
   <br>
-  <a href="{% url 'user_profile' user_id=request.user.id %}" class="btn-join-group">ดูโปรไฟล์</a>
-  <a href="{% url 'sensor:display_data' %}" class="btn-join-group">ดูข้อมูลย้อนหลัง</a>
+  <a href="{% url 'user_profile' user_id=request.user.id %}" class="btn-join-group">👤 Profile</a>
+  <a href="{% url 'sensor:display_data' %}" class="btn-join-group">📊 Records</a>
 </div>
 {% endblock %}
 
@@ -76,6 +77,9 @@
 
         const risk = document.getElementById("risk");
         if (risk) risk.textContent = data.risk.toUpperCase();
+
+        const ai = document.getElementById("ai");
+        if (ai && data.ai) ai.textContent = data.ai;
 
       }
     }

@@ -115,16 +115,18 @@ def display_data(request):
     skin_resistances = [data.skin_resistance for data in sensor_data]
     risks = [map_risk_to_score(data.risk) for data in sensor_data]
 
-    return render(request, "sensor/display_data.html", {
+    context = {
         "sensor_data": sensor_data,
         "target_user": target_user,
-        "timestamps": timestamps,
-        "heart_rates": heart_rates,
-        "temperatures": temperatures,
-        "body_temps": body_temps,
-        "humidity_values": humidity_values,
-        "risks": risks
-    })
+        "timestamps": json.dumps(timestamps),
+        "heart_rates": json.dumps(heart_rates),
+        "temperatures": json.dumps(temperatures),
+        "body_temps": json.dumps(body_temps),
+        "humidity_values": json.dumps(humidity_values),
+        "risks": json.dumps(risks),
+    }
+
+    return render(request, "sensor/display_data.html", context)
 
 
 def map_risk_to_score(risk):

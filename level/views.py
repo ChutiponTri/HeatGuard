@@ -9,8 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from sensor.models import SensorData
 from django.contrib.auth import get_user_model
 
-
-
 def register(request):
     if request.method == "POST":
         username = request.POST.get("username")

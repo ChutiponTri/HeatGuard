@@ -9,6 +9,7 @@ import json
 import sys
 import ssl
 import os
+from sensor.management.commands.gemini import Gemini
 
 sys.path.append("/app")
 
@@ -21,6 +22,7 @@ MQTT_TOPIC = os.getenv("MQTT_TOPIC")
 USER_ID = int(os.getenv("USER_ID"))
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_BASE_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
+GEMINI = Gemini()
 
 def on_connect(client, userdata, connect_flags, reason_code, properties):
     if reason_code == 0:
@@ -72,22 +74,28 @@ def on_message(client, userdata, message: mqtt.MQTTMessage):
             risk  = risk
         )
 
+        json_data = {
+            "user_id": user.id,
+            "username": user.username,
+            "timestamp": str(sensor_data.timestamp),
+            "heart_rate": sensor_data.heart_rate,
+            "skin_temperature": sensor_data.skin_temperature,
+            "ambient_temperature": sensor_data.ambient_temperature,
+            "humidity": sensor_data.humidity,
+            "skin_resistance": sensor_data.skin_resistance,
+            "risk": sensor_data.risk,
+        }
+
+        output = GEMINI.prompt("Please verify if the user is in risk of Heat Stroke", json_data)
+        json_data["ai"] = output.content
+        print(output.content)
+
         # ✅ Broadcast ข้อมูลไปยัง WebSocket
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             "sensor_group", {
                 "type": "send_sensor_data",
-                "data": {
-                    "user_id": user.id,
-                    "username": user.username,
-                    "timestamp": str(sensor_data.timestamp),
-                    "heart_rate": sensor_data.heart_rate,
-                    "skin_temperature": sensor_data.skin_temperature,
-                    "ambient_temperature": sensor_data.ambient_temperature,
-                    "humidity": sensor_data.humidity,
-                    "skin_resistance": sensor_data.skin_resistance,
-                    "risk": sensor_data.risk,
-                },
+                "data": json_data,
             }
         )
 
@@ -95,7 +103,7 @@ def on_message(client, userdata, message: mqtt.MQTTMessage):
             risk = risk.replace("high", "emergency")
             message = f"Status of {user.username.capitalize()}\nRisk Level: {risk_int}\n{risk.capitalize()} Condition"
             Telegram.telegram(message)
-                
+
         print("✅ ส่งข้อมูลเข้าสู่ WebSocket แล้ว:")
 
     except Exception as e:
@@ -120,7 +128,7 @@ class Telegram():
         updates = Telegram.get_updates()
         if updates["result"]:
             chat_id = updates["result"][-1]["message"]["chat"]["id"]
-            Telegram.send_message(chat_id, message)  
+            Telegram.send_message(chat_id, message)
  
 class Command(BaseCommand):
     help = "MQTT start listening!!!"

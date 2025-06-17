@@ -97,20 +97,21 @@
 
 
       element.innerHTML = `
-        <div class="sensor-title">${data.username}</div>
+        <div class="sensor-title">👤 ${data.username}</div>
         <div style="background-color: ${riskColor}; padding: 0.8rem; border-radius: 8px;">
-          <p><strong>ระดับความเสี่ยง:</strong> ${data.risk.toUpperCase()}</p>
-          <p>อัปเดตล่าสุด: ${data.timestamp}</p>
+          <p><strong>🚦 Risk:</strong> ${data.risk.toUpperCase()}</p>
+          <p>⏱️ Updated At: ${data.timestamp}</p>
           <ul>
-            <li>อัตราการเต้นหัวใจ: ${data.heart_rate} bpm</li>
-            <li>อุณหภูมิผิว: ${data.skin_temperature} °C</li>
-            <li>อุณหภูมิโดยรอบ: ${data.ambient_temperature} °C</li>
-            <li>ความชื้น: ${data.humidity} %</li>
-            <li>ค่าความต้านทานผิวหนัง: ${data.skin_resistance}</li>
+            <li>💓 Heart Rate: ${data.heart_rate} BPM</li>
+            <li>🌡️ Core Temperature: ${data.skin_temperature} °C</li>
+            <li>🌤️ Ambient Temperature: ${data.ambient_temperature} °C</li>
+            <li>💧 Humidity: ${data.humidity} %</li>
+            <li>⚡ Skin Resistance: ${data.skin_resistance}</li>
+            ${data.ai ? `<li>🤖 AI: ${data.ai}</li>` : ""}
           </ul>
         </div>
-        <a class="profile-btn" href="/profile/${userId}/">ดูโปรไฟล์</a>
-        `;
+        <a class="profile-btn" href="/profile/${userId}/">👤 ${data.username}'s' Profile</a>
+      `;
 
     }
   };

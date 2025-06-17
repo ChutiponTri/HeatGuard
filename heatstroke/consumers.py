@@ -2,7 +2,6 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-
 class SensorConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         # ประมวลผลการเชื่อมต่อ WebSocket
@@ -28,18 +27,20 @@ class SensorConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         data = json.loads(text_data)
         # ส่งข้อมูลไปยัง group
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                "type": "sensor_data",
-                "heart_rate": data["heart_rate"],
-                "skin_temperature": data["skin_temperature"],
-                "ambient_temperature": data["ambient_temperature"],
-                "humidity": data["humidity"],
-                "skin_resistance": data["skin_resistance"],
-                "timestamp": data["timestamp"],
-            }
-        )
+        data_to_send = {
+            "type": "sensor_data",
+            "heart_rate": data["heart_rate"],
+            "skin_temperature": data["skin_temperature"],
+            "ambient_temperature": data["ambient_temperature"],
+            "humidity": data["humidity"],
+            "skin_resistance": data["skin_resistance"],
+            "timestamp": data["timestamp"],
+        }
+
+        if "ai" in data.keys():
+            data_to_send["ai"] = data["ai"]
+            
+        await self.channel_layer.group_send(self.room_group_name, data_to_send)
 
     # ส่งข้อมูลไปยัง WebSocket
     async def sensor_data(self, event):

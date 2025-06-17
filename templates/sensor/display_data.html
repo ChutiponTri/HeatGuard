@@ -56,9 +56,9 @@
       var trace = {
         x: xData,
         y: yData,
-        type: 'scatter',
-        mode: 'lines+markers',
-        line: { shape: 'spline' }
+        type: "scatter",
+        mode: "lines+markers",
+        line: { shape: "spline" }
       };
       var layout = {
         title: title,
@@ -69,36 +69,42 @@
       Plotly.newPlot(divId, [trace], layout);
     }
 
-    // ✅ สร้างกราฟต่าง ๆ
-    createLinePlot('temperaturePlot', {{ timestamps|default:"[]"|safe }}, {{ temperatures|default:"[]"|safe }}, 'Time', 'Ambient Temp (°C)', 'Ambient Temperature');
-    createLinePlot('humidityPlot', {{ timestamps|default:"[]"|safe }}, {{ humidity_values|default:"[]"|safe }}, 'Time', 'Humidity (%)', 'Humidity');
-    createLinePlot('bodyTempPlot', {{ timestamps|default:"[]"|safe }}, {{ body_temps|default:"[]"|safe }}, 'Time', 'Skin Temp (°C)', 'Body Temperature');
-    createLinePlot('heartRatePlot', {{ timestamps|default:"[]"|safe }}, {{ heart_rates|default:"[]"|safe }}, 'Time', 'Heart Rate (bpm)', 'Heart Rate');
+    var timestamps = JSON.parse('{{ timestamps|default:"[]"|escapejs }}');
+    var temperatures = JSON.parse('{{ temperatures|default:"[]"|escapejs }}');
+    var humidity_values = JSON.parse('{{ humidity_values|default:"[]"|escapejs }}');
+    var body_temps = JSON.parse('{{ body_temps|default:"[]"|escapejs }}');
+    var heart_rates = JSON.parse('{{ heart_rates|default:"[]"|escapejs }}');
+    var risks = JSON.parse('{{ risks|default:"[]"|escapejs }}');
 
-    // ✅ Risk Graph
+    createLinePlot("temperaturePlot", timestamps, temperatures, "Time", "Ambient Temp (°C)", "Ambient Temperature");
+    createLinePlot("humidityPlot", timestamps, humidity_values, "Time", "Humidity (%)", "Humidity");
+    createLinePlot("bodyTempPlot", timestamps, body_temps, "Time", "Skin Temp (°C)", "Body Temperature");
+    createLinePlot("heartRatePlot", timestamps, heart_rates, "Time", "Heart Rate (bpm)", "Heart Rate");
+
     var trace = {
-      x: {{ timestamps|safe }},
-      y: {{ risks|safe }},
-      mode: 'lines+markers',
-      type: 'scatter'
+      x: timestamps,
+      y: risks,
+      mode: "lines+markers",
+      type: "scatter"
     };
+    
     var layout = {
-        title: 'Risk',
-        xaxis: { title: 'Time' },
+        title: "Risk",
+        xaxis: { title: "Time" },
         yaxis: {
-          title: 'Risk Level',
+          title: "Risk Level",
           range: [-0.5, 3.5],
           tickvals: [0, 1, 2, 3],
-          ticktext: ['Normal', 'Low', 'Medium', 'High']
+          ticktext: ["Normal", "Low", "Medium", "High"]
         },
         shapes: [
-          { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: -0.5, x1: 1, y1: 0.5, fillcolor: 'green', opacity: 0.3, line: { width: 0 } },
-          { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: 0.5, x1: 1, y1: 1.5, fillcolor: 'yellow', opacity: 0.3, line: { width: 0 } },
-          { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: 1.5, x1: 1, y1: 2.5, fillcolor: 'orange', opacity: 0.3, line: { width: 0 } },
-          { type: 'rect', xref: 'paper', yref: 'y', x0: 0, y0: 2.5, x1: 1, y1: 3.5, fillcolor: 'red', opacity: 0.3, line: { width: 0 } }
+          { type: "rect", xref: "paper", yref: "y", x0: 0, y0: -0.5, x1: 1, y1: 0.5, fillcolor: "green", opacity: 0.3, line: { width: 0 } },
+          { type: "rect", xref: "paper", yref: "y", x0: 0, y0: 0.5, x1: 1, y1: 1.5, fillcolor: "yellow", opacity: 0.3, line: { width: 0 } },
+          { type: "rect", xref: "paper", yref: "y", x0: 0, y0: 1.5, x1: 1, y1: 2.5, fillcolor: "orange", opacity: 0.3, line: { width: 0 } },
+          { type: "rect", xref: "paper", yref: "y", x0: 0, y0: 2.5, x1: 1, y1: 3.5, fillcolor: "red", opacity: 0.3, line: { width: 0 } }
         ]
       };
-    Plotly.newPlot('riskPlot', [trace], layout);
+    Plotly.newPlot("riskPlot", [trace], layout);
   </script>
 {% endblock %}
 
