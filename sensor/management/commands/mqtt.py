@@ -22,7 +22,8 @@ MQTT_TOPIC = os.getenv("MQTT_TOPIC")
 USER_ID = int(os.getenv("USER_ID"))
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_BASE_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
-GEMINI = Gemini()
+GEMINI_KEY = os.getenv("GEMINI_KEY")
+GEMINI = Gemini(GEMINI_KEY)
 
 def on_connect(client, userdata, connect_flags, reason_code, properties):
     if reason_code == 0:

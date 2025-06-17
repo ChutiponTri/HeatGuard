@@ -1,11 +1,10 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.schema import HumanMessage, AIMessage
-import os
 
 class Gemini():
-    def __init__(self):
+    def __init__(self, api_key):
         # Set up the LLM model
-        self.llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", api_key=os.getenv("GEMINI_KEY"))
+        self.llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", api_key=api_key)
 
     # Function to Interact with Gemini
     def prompt(self, user_input, context_json):
