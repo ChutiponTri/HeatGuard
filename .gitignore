@@ -1,0 +1,8 @@
+__pycache__/
+*.log
+*.env
+media/
+venv/
+node_modules/
+*.pid
+*.sock
